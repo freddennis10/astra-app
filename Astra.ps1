@@ -1,0 +1,1 @@
+cd "C:\Users\Neo Silver\astra-app"; npm start 
