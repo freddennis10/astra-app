@@ -81,26 +81,20 @@ const AppContent: React.FC = () => {
     // Handle registration logic here
   };
   
-  // Show auth page by default if not authenticated
-  if (!isLoading && !isAuthenticated) {
-    return (
-      <StyledThemeProvider theme={theme}>
-        <GlobalStyles />
-        <AuthPage />
-      </StyledThemeProvider>
-    );
-  }
-  
   return (
     <StyledThemeProvider theme={theme}>
       <GlobalStyles />
-      <AnimatePresence mode="wait">
-        {isLoading ? (
-          <LoadingScreen key="loading" onComplete={handleLoadingComplete} />
-        ) : (
-          <Router key="app">
-            <OfflineHandler />
-            <AppLayout>
+      <Router>
+        <OfflineHandler />
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <LoadingScreen key="loading" onComplete={handleLoadingComplete} />
+          ) : !isAuthenticated ? (
+            <Routes key="auth">
+              <Route path="*" element={<AuthPage />} />
+            </Routes>
+          ) : (
+            <AppLayout key="app">
               <Header />
               <Navigation isOpen={navOpen} onToggle={() => setNavOpen(!navOpen)} />
               <MainContent $navOpen={navOpen}>
@@ -132,14 +126,14 @@ const AppContent: React.FC = () => {
                 <MusicPlayer />
               </MainContent>
             </AppLayout>
-            <RegisterModal
-              isOpen={showRegisterModal}
-              onClose={() => setShowRegisterModal(false)}
-              onRegister={handleRegister}
-            />
-          </Router>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+        <RegisterModal
+          isOpen={showRegisterModal}
+          onClose={() => setShowRegisterModal(false)}
+          onRegister={handleRegister}
+        />
+      </Router>
     </StyledThemeProvider>
   );
 };
