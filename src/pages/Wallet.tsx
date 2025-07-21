@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { getWalletDetails, createTransaction } from '../services/api';
 import { CreditCard, DollarSign, Send, TrendingUp, Download, Upload, BarChart3, Settings } from 'lucide-react';
 
 const WalletContainer = styled.div`
@@ -15,10 +14,6 @@ const Title = styled.h1`
   margin-bottom: 24px;
 `;
 
-const Content = styled.div`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.6;
-`;
 
 const WalletCard = styled.div`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -248,7 +243,7 @@ const ViewAllButton = styled.button`
 `;
 
 export const Wallet = () => {
-  const [walletData, setWalletData] = useState({
+  const [walletData] = useState({
     balance: 2847.50,
     totalEarnings: 12450.75,
     pendingBalance: 125.00,
